@@ -6,6 +6,10 @@ using System.Windows.Forms;
 namespace gvimwrapper {
 partial class wrapper {
 
+	void tree_init() {
+		filetree.ImageList = iconlist;
+	}
+
 	void tree_fill(string path) {
 		filetree.Nodes.Clear();
 		tree_fill(path, filetree.Nodes, true);
@@ -16,7 +20,7 @@ partial class wrapper {
 
 		DirectoryInfo dir = new DirectoryInfo(path);
 		if (showparent && dir.Parent != null) {
-			tree_makenode(nodes, "..", dir.Parent.FullName, "folder");
+			tree_makenode(nodes, "..", dir.Parent.FullName, ".folder");
 		}
 
 		DirectoryInfo[] subdirs = dir.GetDirectories();
@@ -27,11 +31,11 @@ partial class wrapper {
 					subdir.GetFiles().Length > 0 ||
 					subdir.GetDirectories().Length > 0;
 			} catch (Exception) {
-				tree_makenode(nodes, "(err) " + subdir.Name, null, "warning");
+				tree_makenode(nodes, "(err) " + subdir.Name, null, ".warning");
 				continue;
 			}
 
-			var child = tree_makenode(nodes, subdir.Name, subdir.FullName, "folder");
+			var child = tree_makenode(nodes, subdir.Name, subdir.FullName, ".folder");
 			if (canexpand) {
 				child.Nodes.Add(new TreeNode());
 			}
@@ -41,7 +45,7 @@ partial class wrapper {
 			try {
 				tree_makenode(nodes, file.Name, file, file.Extension);
 			} catch (Exception) {
-				tree_makenode(nodes, "(exc)", null, "warning");
+				tree_makenode(nodes, "(exc)", null, ".warning");
 			}
 		}
 	}

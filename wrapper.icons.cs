@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace gvimwrapper {
@@ -9,11 +11,19 @@ partial class wrapper {
 
 	void icons_init() {
 		iconlist = new ImageList();
-		iconlist.Images.Add("empty", new Bitmap(1, 1));
-		iconlist.Images.Add("folder", new Icon("gvimwrappericons/folder.ico"));
-		iconlist.Images.Add("warning", new Icon("gvimwrappericons/warning.ico"));
-		hasunknown = false;
-		filetree.ImageList = iconlist;
+		iconlist.Images.Add(".empty", new Bitmap(1, 1));
+		try {
+			DirectoryInfo dir = new DirectoryInfo("gvimwrappericons");
+			foreach (FileInfo file in dir.GetFiles()) {
+				if (file.Extension == ".ico") {
+					Icon icon = new Icon(file.FullName);
+					string name = file.Name;
+					name = name.Substring(0, name.Length - 4);
+					iconlist.Images.Add("." + name, icon);
+				}
+			}
+		} catch (Exception) { }
+		hasunknown = iconlist.Images.ContainsKey(".unknown");
 	}
 
 	string icons_forextension(string extension) {
@@ -21,12 +31,13 @@ partial class wrapper {
 			return extension;
 		}
 
-		if (extension != "warning" && hasunknown) {
-			return "unknown";
+		if (extension != ".warning" && hasunknown) {
+			return ".unknown";
 		}
 
-		return "empty";
+		return ".empty";
 	}
 
 }
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////

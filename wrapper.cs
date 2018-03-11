@@ -23,6 +23,7 @@ partial class wrapper : Form {
 		icons_init();
 		tab_init();
 		vim_init();
+		tree_init();
 		removetitlebar();
 	}
 
