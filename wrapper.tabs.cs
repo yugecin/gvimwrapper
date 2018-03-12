@@ -87,6 +87,11 @@ partial class wrapper {
 	}
 
 	void UI_TabBarClicked(object sender, MouseEventArgs e) {
+		if (suppressnexttabclick) {
+			suppressnexttabclick = false;
+			return;
+		}
+
 		Rectangle pos = new Rectangle(e.X, e.Y, 1, 1);
 		foreach (Tab t in tabs) {
 			if (t.location.IntersectsWith(pos)) {

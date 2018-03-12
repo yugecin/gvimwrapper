@@ -42,13 +42,16 @@ partial class wrapper : Form {
 	}
 
 	bool moveForm;
+	Point movestartlocation;
 	int moveOffsetX, moveOffsetY;
+	bool suppressnexttabclick;
 
 	void UI_TabBarMouseDown(object sender, MouseEventArgs e) {
 		//if (e.Button != System.Windows.Forms.MouseButtons.Right) {
 		//	return;
 		//}
 		moveForm = true;
+		movestartlocation = this.Location;
 		moveOffsetY = e.Location.Y;
 		moveOffsetX = e.Location.X;
 	}
@@ -63,6 +66,11 @@ partial class wrapper : Form {
 	}
 
 	void UI_TabBarMouseUp(object sender, MouseEventArgs e) {
+		if (Math.Abs(this.Location.X - movestartlocation.X) > 6 ||
+			Math.Abs(this.Location.Y - movestartlocation.Y) > 6)
+		{
+			suppressnexttabclick = true;
+		}
 		moveForm = false;
 	}
 
