@@ -85,8 +85,10 @@ partial class wrapper {
 	}
 
 	void vim_sendcommand(string cmd) {
+		SuspendLayout();
 		SetForegroundWindow(vimHandle);
 		SendKeys.Send(cmd + "{ENTER}");
+		ResumeLayout();
 	}
 
 	string escape_filename(string file) {
