@@ -9,13 +9,29 @@ partial class wrapper {
 
 	IntPtr vimHandle;
 	Process proc;
-	delegate void Grab();
-	Grab grabdel;
+	bool closerequested;
+	bool closing;
 
 	void vim_init() {
 		proc = Process.Start(new ProcessStartInfo(@"K:\Program Files (x86)\Vim\vim74\gvim.exe"));
-		grabdel = grab;
-		Task.Factory.StartNew(grabwindow);
+		Task.Factory.StartNew((Action) (() => {
+			proc.WaitForInputIdle();
+			BeginInvoke((Action) (grab));
+		}));
+		Task.Factory.StartNew((Action) (() => {
+			proc.WaitForExit();
+			BeginInvoke((Action) (vim_Exited));
+		}));
+	}
+
+	void vim_Exited() {
+		if (closerequested) {
+			if (!closing) {
+				this.Close();
+			}
+			return;
+		}
+		vim_init();
 	}
 
 	void grab() {
@@ -27,11 +43,9 @@ partial class wrapper {
 		vim_triggerwindowresize();
 		//SendMessage(hwnd, WM_SYSCOMMAND, new IntPtr(SC_MAXIMIZE), IntPtr.Zero);
 		//proc.Refresh();
-	}
-
-	void grabwindow() {
-		proc.WaitForInputIdle();
-		this.BeginInvoke(grabdel);
+		foreach (Tab t in tabs) {
+			vim_open(t.filename);
+		}
 	}
 
 	void UI_VimContainerResized(object sender, EventArgs e) {

@@ -101,14 +101,17 @@ partial class wrapper : Form {
 	}
 
 	void UI_Closing(object sender, FormClosingEventArgs e) {
-		if (!proc.HasExited) {
-			proc.CloseMainWindow();
+		closerequested = true;
+		if (proc.HasExited) {
+			return;
 		}
+		proc.CloseMainWindow();
 		Thread.Sleep(100);
 		if (!proc.HasExited) {
 			e.Cancel = true;
 			return;
 		}
+		closing = true;
 		proc.Close();
 	}
 
