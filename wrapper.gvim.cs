@@ -11,6 +11,7 @@ partial class wrapper {
 	Process proc;
 	bool closerequested;
 	bool closing;
+	string cd;
 
 	void vim_init() {
 		proc = Process.Start(new ProcessStartInfo(@"K:\Program Files (x86)\Vim\vim74\gvim.exe"));
@@ -43,6 +44,9 @@ partial class wrapper {
 		vim_triggerwindowresize();
 		//SendMessage(hwnd, WM_SYSCOMMAND, new IntPtr(SC_MAXIMIZE), IntPtr.Zero);
 		//proc.Refresh();
+		if (cd != null) {
+			vim_cd(cd);
+		}
 		foreach (Tab t in tabs) {
 			vim_open(t.filename);
 		}
@@ -64,12 +68,20 @@ partial class wrapper {
 		);
 	}
 
+	void vim_cd(string dir) {
+		cd = dir;
+		if (!dir.EndsWith("\\") && !dir.EndsWith("//")) {
+			cd += "\\";
+		}
+		vim_sendcommand(":cd " + escape_filename(dir));
+	}
+
 	void vim_open(string file) {
-		vim_sendcommand(":e " + escape_filename(file));
+		vim_sendcommand(":e " + escape_filename(makerelative(file)));
 	}
 
 	void vim_close(string file) {
-		vim_sendcommand(":bd " + escape_filename(file));
+		vim_sendcommand(":bd " + escape_filename(makerelative(file)));
 	}
 
 	void vim_sendcommand(string cmd) {
@@ -88,6 +100,24 @@ partial class wrapper {
 			sb.Append(c[i]);
 		}
 		return sb.ToString();
+	}
+
+	string makerelative(string path) {
+		if (cd == null) {
+			return path;
+		}
+
+		if (path.Substring(0, 2) != cd.Substring(0, 2)) {
+			return path;
+		}
+
+		try {
+			Uri workingdir = new Uri(cd);
+			string relpath = workingdir.MakeRelativeUri(new Uri(path)).ToString();
+			return Uri.UnescapeDataString(relpath);
+		} catch (Exception) {
+		      return path;
+		}
 	}
 
 }

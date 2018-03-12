@@ -13,6 +13,7 @@ partial class wrapper {
 	void tree_fill(string path) {
 		filetree.Nodes.Clear();
 		tree_fill(path, filetree.Nodes, true);
+		vim_cd(path);
 	}
 
 	void tree_fill(string path, TreeNodeCollection nodes, bool showparent = false) {
