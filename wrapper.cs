@@ -66,23 +66,6 @@ partial class wrapper : Form {
 		moveForm = false;
 	}
 
-	void openFolderToolStripMenuItem_Click(object sender, EventArgs e) {
-		FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
-		folderBrowser.RootFolder = Environment.SpecialFolder.DesktopDirectory;
-		folderBrowser.ShowNewFolderButton = false;
-		folderBrowser.Description = "Gimme folder";
-		if (folderBrowser.ShowDialog() == DialogResult.OK) {
-			tree_fill(folderBrowser.SelectedPath);
-		}
-	}
-
-	void openSelectedNodeAsFolderToolStripMenuItem_Click(object sender, EventArgs e) {
-		TreeNode node = filetree.SelectedNode;
-		if (node != null && node.Tag is string) {
-			tree_fill((string) node.Tag);
-		}
-	}
-
 	void UI_CloseButtonClick(object sender, EventArgs e) {
 		this.Close();
 	}

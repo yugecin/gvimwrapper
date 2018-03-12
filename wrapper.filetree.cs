@@ -93,6 +93,23 @@ partial class wrapper {
 		}
 	}
 
+	void UI_OpenFolderClick(object sender, EventArgs e) {
+		FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+		folderBrowser.RootFolder = Environment.SpecialFolder.DesktopDirectory;
+		folderBrowser.ShowNewFolderButton = false;
+		folderBrowser.Description = "Gimme folder";
+		if (folderBrowser.ShowDialog() == DialogResult.OK) {
+			tree_fill(folderBrowser.SelectedPath);
+		}
+	}
+
+	void UI_OpenSelectedNodeClick(object sender, EventArgs e) {
+		TreeNode node = filetree.SelectedNode;
+		if (node != null && node.Tag is string) {
+			tree_fill((string) node.Tag);
+		}
+	}
+
 }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -142,14 +142,14 @@
 			this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
 			this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
 			this.openFolderToolStripMenuItem.Text = "Open folder";
-			this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
+			this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.UI_OpenFolderClick);
 			// 
 			// openSelectedNodeAsFolderToolStripMenuItem
 			// 
 			this.openSelectedNodeAsFolderToolStripMenuItem.Name = "openSelectedNodeAsFolderToolStripMenuItem";
 			this.openSelectedNodeAsFolderToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
 			this.openSelectedNodeAsFolderToolStripMenuItem.Text = "Open selected node as folder";
-			this.openSelectedNodeAsFolderToolStripMenuItem.Click += new System.EventHandler(this.openSelectedNodeAsFolderToolStripMenuItem_Click);
+			this.openSelectedNodeAsFolderToolStripMenuItem.Click += new System.EventHandler(this.UI_OpenSelectedNodeClick);
 			// 
 			// wrapper
 			// 
