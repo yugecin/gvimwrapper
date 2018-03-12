@@ -84,12 +84,14 @@ partial class wrapper {
 	}
 
 	void UI_TreeNodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
-		if (e.Node.Tag != null && e.Node.Tag is FileInfo) {
+		if (e.Node.Tag is FileInfo) {
 			string file = ((FileInfo) e.Node.Tag).FullName;
 			if (File.Exists(file)) {
 				tab_open(file, iconlist.Images[e.Node.ImageKey]);
 				vim_open(file);
 			}
+		} else if (e.Node.Tag is string) {
+			tree_fill((string) e.Node.Tag);
 		}
 	}
 
