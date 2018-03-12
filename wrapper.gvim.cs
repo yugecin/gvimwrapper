@@ -11,16 +11,19 @@ partial class wrapper {
 	Process proc;
 	bool closerequested;
 	bool closing;
+	bool vimready;
 	string cd;
 
 	void vim_init() {
 		proc = Process.Start(new ProcessStartInfo(@"K:\Program Files (x86)\Vim\vim74\gvim.exe"));
 		Task.Factory.StartNew((Action) (() => {
 			proc.WaitForInputIdle();
+			vimready = true;
 			BeginInvoke((Action) (grab));
 		}));
 		Task.Factory.StartNew((Action) (() => {
 			proc.WaitForExit();
+			vimready = false;
 			BeginInvoke((Action) (vim_Exited));
 		}));
 	}
@@ -84,9 +87,19 @@ partial class wrapper {
 		vim_sendcommand(":bd " + escape_filename(makerelative(file)));
 	}
 
+	void vim_grabfocus() {
+		if (vimready) {
+			SetForegroundWindow(vimHandle);
+		}
+	}
+
 	void vim_sendcommand(string cmd) {
+		if (!vimready) {
+			return;
+		}
+
 		SuspendLayout();
-		SetForegroundWindow(vimHandle);
+		vim_grabfocus();
 		SendKeys.Send(cmd + "{ENTER}");
 		ResumeLayout();
 	}

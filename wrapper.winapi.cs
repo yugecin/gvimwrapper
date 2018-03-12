@@ -4,6 +4,11 @@ using System.Runtime.InteropServices;
 namespace gvimwrapper {
 partial class wrapper {
 
+	const int WM_ACTIVATE = 6;
+	const int WA_INACTIVE = 0;
+	const int WA_ACTIVE = 1;
+	const int WA_CLICKACTIVE = 2;
+
 	const int GWL_HWNDPARENT = -8;
 	const int GWL_ID = -12;
 	const int GWL_STYLE = -16;

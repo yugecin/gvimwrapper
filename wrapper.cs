@@ -27,6 +27,13 @@ partial class wrapper : Form {
 		removetitlebar();
 	}
 
+	protected override void WndProc(ref Message m) {
+		base.WndProc(ref m);
+		if (m.Msg == WM_ACTIVATE && m.WParam.ToInt32() == WA_ACTIVE) {
+			vim_grabfocus();
+		}
+	}
+
 	void removetitlebar() {
 		uint lng = GetWindowLong(this.Handle, GWL_STYLE) & ~(WS_CAPTION);
 		SetWindowLong(this.Handle, GWL_STYLE, lng);
