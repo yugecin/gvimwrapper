@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -7,15 +8,23 @@ using System.Windows.Forms;
 namespace gvimwrapper {
 partial class wrapper {
 
+	const string settingsfile = "gvimwrapper.ini";
+
 	IntPtr vimHandle;
 	Process proc;
 	bool closerequested;
 	bool closing;
 	bool vimready;
 	string cd;
+	string vimlocation;
 
 	void vim_init() {
-		proc = Process.Start(new ProcessStartInfo(@"K:\Program Files (x86)\Vim\vim74\gvim.exe"));
+		try {
+			proc = Process.Start(new ProcessStartInfo(vimlocation));
+		} catch (Exception e) {
+			MessageBox.Show("could not launch vim: " + e.Message);
+			return;
+		}
 		Task.Factory.StartNew((Action) (() => {
 			proc.WaitForInputIdle();
 			vimready = true;
@@ -39,6 +48,10 @@ partial class wrapper {
 	}
 
 	void grab() {
+		if (!vimready) {
+			return;
+		}
+
 		vimHandle = proc.MainWindowHandle;
 		uint lng = GetWindowLong(vimHandle, GWL_STYLE);
 		lng &= ~(WS_BORDER | WS_SIZEBOX | WS_DLGFRAME);
@@ -55,11 +68,42 @@ partial class wrapper {
 		}
 	}
 
+	void vim_getlocation() {
+		if (File.Exists(settingsfile)) {
+			try {
+				string [] lines = File.ReadAllLines(settingsfile);
+				if (lines.Length > 0 && File.Exists(lines[0])) {
+					vimlocation = lines[0];
+					return;
+				}
+			} catch (Exception e) {
+				MessageBox.Show("could not read settings: " + e.Message);
+			}
+		}
+		OpenFileDialog ofd = new OpenFileDialog();
+		ofd.Title = "Select your gvim executable";
+		ofd.Multiselect = false;
+		ofd.Filter = "executables|*.exe";
+		if (ofd.ShowDialog() != DialogResult.OK) {
+			return;
+		}
+		vimlocation = ofd.FileName;
+		try {
+			File.WriteAllLines(settingsfile, new string[] {ofd.FileName});
+		} catch (Exception e) {
+			MessageBox.Show("could not save settings: " + e.Message);
+		}
+	}
+
 	void UI_VimContainerResized(object sender, EventArgs e) {
 		vim_triggerwindowresize();
 	}
 
 	void vim_triggerwindowresize() {
+		if (!vimready) {
+			return;
+		}
+
 		SetWindowPos(
 			vimHandle,
 			hWndInsertAfter: IntPtr.Zero,

@@ -189,6 +189,7 @@
 			this.Text = "GVIMwrapper";
 			this.MaximizedBoundsChanged += new System.EventHandler(this.UI_Resized);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_Closing);
+			this.Load += new System.EventHandler(this.UI_Shown);
 			this.ResizeEnd += new System.EventHandler(this.UI_VimContainerResized);
 			this.tabpanel.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);

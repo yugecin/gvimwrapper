@@ -14,12 +14,17 @@ partial class wrapper : Form {
 
 	[STAThread]
 	static void Main() {
+		wrapper w = new wrapper();
+		w.vim_getlocation();
 		Application.VisualStyleState = VisualStyleState.NoneEnabled;
-		Application.Run(new wrapper());
+		Application.Run(w);
 	}
 
 	wrapper() {
 		InitializeComponent();
+	}
+
+	void UI_Shown(object sender, EventArgs e) {
 		icons_init();
 		tab_init();
 		vim_init();
@@ -101,7 +106,7 @@ partial class wrapper : Form {
 
 	void UI_Closing(object sender, FormClosingEventArgs e) {
 		closerequested = true;
-		if (proc.HasExited) {
+		if (proc == null || proc.HasExited) {
 			return;
 		}
 		proc.CloseMainWindow();
