@@ -83,6 +83,7 @@ partial class wrapper {
 		if (origheight != newheight) {
 			vimcontainer.Height = newheight;
 			vimcontainer.Location = new Point(vimcontainer.Location.X, y);
+			vim_triggerwindowresize();
 		}
 	}
 
