@@ -86,11 +86,12 @@ partial class wrapper : Form {
 	}
 
 	void UI_MaximizeButtonClick(object sender, EventArgs e) {
+		FormWindowState newstate = FormWindowState.Maximized;
 		if (this.WindowState == FormWindowState.Maximized) {
-			this.WindowState = FormWindowState.Normal;
-			return;
+			newstate = FormWindowState.Normal;
 		}
-		this.WindowState = FormWindowState.Maximized;
+		this.WindowState = newstate;
+		vim_triggerwindowresize();
 	}
 
 	void UI_Resized(object sender, EventArgs e) {
@@ -111,6 +112,10 @@ partial class wrapper : Form {
 		}
 		closing = true;
 		proc.Close();
+	}
+
+	void UI_MaximizedBoundsChanged(object sender, EventArgs e) {
+		vim_triggerwindowresize();
 	}
 
 }

@@ -160,6 +160,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "wrapper";
 			this.Text = "GVIMwrapper";
+			this.MaximizedBoundsChanged += new System.EventHandler(this.UI_MaximizedBoundsChanged);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_Closing);
 			this.ResizeEnd += new System.EventHandler(this.UI_VimContainerResized);
 			this.tabpanel.ResumeLayout(false);
