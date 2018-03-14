@@ -114,10 +114,6 @@ partial class wrapper : Form {
 		proc.Close();
 	}
 
-	void UI_MaximizedBoundsChanged(object sender, EventArgs e) {
-		vim_triggerwindowresize();
-	}
-
 }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////

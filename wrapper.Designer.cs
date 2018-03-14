@@ -113,6 +113,7 @@
 			this.splitContainer1.Size = new System.Drawing.Size(1009, 525);
 			this.splitContainer1.SplitterDistance = 200;
 			this.splitContainer1.TabIndex = 2;
+			this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.UI_Resized);
 			// 
 			// filetree
 			// 
@@ -160,7 +161,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "wrapper";
 			this.Text = "GVIMwrapper";
-			this.MaximizedBoundsChanged += new System.EventHandler(this.UI_MaximizedBoundsChanged);
+			this.MaximizedBoundsChanged += new System.EventHandler(this.UI_Resized);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_Closing);
 			this.ResizeEnd += new System.EventHandler(this.UI_VimContainerResized);
 			this.tabpanel.ResumeLayout(false);
