@@ -24,6 +24,7 @@ partial class wrapper {
 			}
 		} catch (Exception) { }
 		hasunknown = iconlist.Images.ContainsKey(".unknown");
+		icons_createdefaulterroricon();
 	}
 
 	string icons_forextension(string extension) {
@@ -36,6 +37,17 @@ partial class wrapper {
 		}
 
 		return ".empty";
+	}
+
+	void icons_createdefaulterroricon() {
+		if (iconlist.Images.ContainsKey(".warning")) {
+			return;
+		}
+		Bitmap bm = new Bitmap(16, 16);
+		Graphics g = Graphics.FromImage(bm);
+		g.FillRectangle(new SolidBrush(Color.DarkRed), 4, 4, 8, 8);
+		iconlist.Images.Add(".warning", bm);
+		g.Dispose();
 	}
 
 }
