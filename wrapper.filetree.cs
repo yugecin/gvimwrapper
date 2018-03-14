@@ -91,7 +91,7 @@ partial class wrapper {
 				tab_open(file, iconlist.Images[e.Node.ImageKey]);
 				vim_open(file);
 			}
-		} else if (e.Node.Tag is string) {
+		} else if (e.Node.Text == ".." && e.Node.Tag is string) {
 			tree_fill((string) e.Node.Tag);
 		}
 	}
