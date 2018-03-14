@@ -38,6 +38,8 @@
 			this.ctxTree = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openSelectedNodeAsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.txtPath = new System.Windows.Forms.TextBox();
 			this.tabpanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -133,10 +135,11 @@
 			// 
 			this.ctxTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFolderToolStripMenuItem,
-            this.openSelectedNodeAsFolderToolStripMenuItem});
+            this.openSelectedNodeAsFolderToolStripMenuItem,
+            this.openPathToolStripMenuItem});
 			this.ctxTree.Name = "ctxTree";
 			this.ctxTree.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.ctxTree.Size = new System.Drawing.Size(216, 48);
+			this.ctxTree.Size = new System.Drawing.Size(216, 70);
 			// 
 			// openFolderToolStripMenuItem
 			// 
@@ -152,11 +155,34 @@
 			this.openSelectedNodeAsFolderToolStripMenuItem.Text = "Open selected node as folder";
 			this.openSelectedNodeAsFolderToolStripMenuItem.Click += new System.EventHandler(this.UI_OpenSelectedNodeClick);
 			// 
+			// openPathToolStripMenuItem
+			// 
+			this.openPathToolStripMenuItem.Name = "openPathToolStripMenuItem";
+			this.openPathToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+			this.openPathToolStripMenuItem.Text = "Open path...";
+			this.openPathToolStripMenuItem.Click += new System.EventHandler(this.UI_OpenPathClick);
+			// 
+			// txtPath
+			// 
+			this.txtPath.AcceptsReturn = true;
+			this.txtPath.AcceptsTab = true;
+			this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.txtPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.txtPath.Location = new System.Drawing.Point(12, 221);
+			this.txtPath.Name = "txtPath";
+			this.txtPath.Size = new System.Drawing.Size(974, 31);
+			this.txtPath.TabIndex = 3;
+			this.txtPath.Visible = false;
+			this.txtPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UI_OpenPathKeyDown);
+			this.txtPath.Leave += new System.EventHandler(this.UI_OpenPathUnfocused);
+			// 
 			// wrapper
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1009, 525);
+			this.Controls.Add(this.txtPath);
 			this.Controls.Add(this.splitContainer1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "wrapper";
@@ -171,6 +197,7 @@
 			this.splitContainer1.ResumeLayout(false);
 			this.ctxTree.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -185,6 +212,8 @@
 		private System.Windows.Forms.ToolStripMenuItem openSelectedNodeAsFolderToolStripMenuItem;
 		private System.Windows.Forms.Button btnMax;
 		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.ToolStripMenuItem openPathToolStripMenuItem;
+		private System.Windows.Forms.TextBox txtPath;
 	}
 }
 

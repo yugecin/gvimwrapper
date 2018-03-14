@@ -114,6 +114,47 @@ partial class wrapper : Form {
 		proc.Close();
 	}
 
+	void UI_OpenPathClick(object sender, EventArgs e) {
+		txtPath.Visible = true;
+		txtPath.Location = new Point(txtPath.Location.X, (Height - txtPath.Height) / 2);
+		txtPath.Focus();
+		txtPath.Select(0, txtPath.TextLength);
+	}
+
+	private void UI_OpenPathUnfocused(object sender, EventArgs e) {
+		txtPath.Visible = false;
+	}
+
+	private void UI_OpenPathKeyDown(object sender, KeyEventArgs e) {
+		if (e.KeyCode == Keys.Escape) {
+			e.Handled = true;
+			e.SuppressKeyPress = true;
+			txtPath.Visible = false;
+			splitContainer1.Focus();
+			return;
+		}
+
+		if (e.KeyCode == Keys.Enter) {
+			e.Handled = true;
+			e.SuppressKeyPress = true;
+			txtPath.Visible = false;
+			splitContainer1.Focus();
+			try {
+				tree_fill(txtPath.Text);
+			} catch (Exception t) {
+				MessageBox.Show("cannot open path (" + t.Message + ")");
+			}
+			return;
+		}
+
+		if (e.KeyCode == Keys.A && (e.Modifiers & Keys.Control) > 0) {
+			e.Handled = true;
+			e.SuppressKeyPress = true;
+			txtPath.Select(0, txtPath.TextLength);
+			return;
+		}
+	}
+
 }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
