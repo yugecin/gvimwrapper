@@ -54,7 +54,8 @@ partial class wrapper {
 		SolidBrush brush = new SolidBrush(Color.Black);
 		foreach (Tab t in tabs) {
 			if (t.width == 0) {
-				t.width = (int) e.Graphics.MeasureString(t.title, tabfont).Width + 20 + 16;
+				t.width = (int) e.Graphics.MeasureString(t.title, tabfont).Width;
+				t.width += 20 + 16;
 			}
 			if (t.width > LINEWIDTH - x) {
 				int prevx = x;
@@ -72,7 +73,8 @@ partial class wrapper {
 			t.location.Y = y;
 			e.Graphics.DrawRectangle(Pens.Black, t.location);
 			e.Graphics.DrawImage(t.icon, new Point(x + 8, y + 2));
-			e.Graphics.DrawString(t.title, tabfont, brush, new PointF(x + 16 + 10, y + 2));
+			PointF titlepos = new PointF(x + 16 + 10, y + 2);
+			e.Graphics.DrawString(t.title, tabfont, brush, titlepos);
 			x += t.width;
 		}
 
