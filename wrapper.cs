@@ -139,6 +139,10 @@ partial class wrapper : Form {
 			e.SuppressKeyPress = true;
 			txtPath.Visible = false;
 			splitContainer1.Focus();
+			if (File.Exists(txtPath.Text)) {
+				vim_open(txtPath.Text);
+				return;
+			}
 			try {
 				tree_fill(txtPath.Text);
 			} catch (Exception t) {
